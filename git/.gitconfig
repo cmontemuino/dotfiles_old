@@ -1,0 +1,159 @@
+[user]
+	name = Carlos Montemuiño
+    email = cmontemuino@users.noreply.github.com
+
+[rerere]
+	enabled = 1
+	autoupdate = 1
+[advice]
+	statusHints = false
+[apply]
+	# Detect whitespace errors when applying a patch.
+	whitespace = fix
+[branch]
+	autoSetupMerge = always
+	# Show most recently changed branches first.
+	sort = -committerdate
+[core]
+	autocrlf = input
+	editor = micro
+	excludesfile = ~/.gitignore
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error.
+	# [default] trailing-space: looks for spaces at the end of a line
+	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+	# Make `git rebase` safer on macOS.
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
+	# Speed up commands involving untracked files such as `git status`.
+	# https://git-scm.com/docs/git-update-index#_untracked_cache
+	untrackedCache = true
+[color]
+	# Use colors in Git commands that are capable of colored output when
+	# outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
+	ui = auto
+[color "branch"]
+	current = yellow bold
+	local = green bold
+	remote = cyan bold
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold # line info
+	old = red bold # deletions
+	new = green bold # additions
+	whitespace = red reverse
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+[commit]
+	# https://help.github.com/articles/signing-commits-using-gpg/
+	gpgsign = true
+[diff]
+	tool = vimdiff
+	# Detect copies as well as renames.
+	renames = copies
+[diff "bin"]
+	# Use `hexdump` to diff binary files.
+	textconv = hexdump -v -C
+[difftool]
+	prompt = false
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg
+[help]
+	# Automatically correct and execute mistyped commands.
+	autocorrect = 1
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log = true
+	stat = true
+[pull]
+	rebase = true
+[push]
+	default = current
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	followTags = true
+[web]
+	browser = firefox
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[alias]
+	# Show the user email for the current repository.
+	whoami = config user.email
+	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+	# View abbreviated SHA, description, and history graph of the latest 20 commits.
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	# Show verbose output about tags, branches or remotes
+	tags = tag -l
+	branches = branch --all
+	remotes = remote --verbose
+	# List contributors with number of commits.
+	contributors = shortlog --summary --numbered
+	# View the current working tree status using the short format.
+	s = status -s
+	# List aliases.
+	aliases = config --get-regexp alias
+	# Revert staged (but not committed) changes
+	unstage = reset HEAD --
+	# Rever last commit on local
+	uncommit = reset --soft HEAD~
+	# Amend the currently staged files to the latest commit.
+	amend = commit --amend --reuse-message=HEAD
+	# Credit an author on the latest commit.
+	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+	# Clone a repository including all submodules.
+	c = clone --recursive
+	pull = pull --ff-only
+	rb = "!f() { \
+	    echo fetching...; \
+	    git fetch; \
+	    if [ $? -eq 0 ]; then \
+		last_status=$(git status --untracked-files=no --porcelain); \
+		if [ \"$last_status\" != \"\" ]; then \
+		    echo stashing local changes...; \
+		    git stash; \
+		else \
+		    echo nothing to stash...; \
+		fi;\
+		if [ $? -eq 0 ]; then \
+		    echo rebasing...;\
+		    git rebase;\
+		    if [ $? -eq 0 ]; then \
+			if [ \"$last_status\" != \"\" ]; then\
+			    echo applying stashed changes...;\
+			    git stash pop;\
+			    if [ $? -ne 0 ]; then \
+				echo STASH POP FAIL - you will need to resolve merge conflicts with git mergetool; \
+			    fi; \
+			fi; \
+		    else \
+			echo REBASE FAILED - you will need to manually run stash pop; \
+		    fi;\
+		fi;\
+	    fi; \
+	    if [ $? -ne 0 ]; then \
+		echo ERROR: Operation failed; \
+	    fi; \
+	}; f"
+
+# URL shorthands
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+
+[url "ssh://git@gitlab.com/"]
+	insteadOf = https://gitlab.com/
+
+[url "ssh://git@bitbucket.org/"]
+	insteadOf = https://bitbucket.org/
+
+
+[init]
+	defaultBranch = master

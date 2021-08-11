@@ -1,10 +1,8 @@
 [user]
 	name = Carlos Montemuiño
-    email = cmontemuino@users.noreply.github.com
+	email = cmontemuino@users.noreply.github.com
+	signingkey = 8B8B4CE869F0B4011D9F136FB2742205C23B433F
 
-[rerere]
-	enabled = 1
-	autoupdate = 1
 [advice]
 	statusHints = false
 [apply]
@@ -61,6 +59,11 @@
 	textconv = hexdump -v -C
 [difftool]
 	prompt = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 [gpg]
 	program = /usr/local/MacGPG2/bin/gpg
 [help]
@@ -76,13 +79,11 @@
 	default = current
 	# Make `git push` push relevant annotated tags when pushing branches out.
 	followTags = true
+[rerere]
+	enabled = 1
+	autoupdate = 1
 [web]
 	browser = firefox
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
 
 [alias]
 	# Show the user email for the current repository.

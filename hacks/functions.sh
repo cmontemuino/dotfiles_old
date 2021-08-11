@@ -3,6 +3,8 @@
 # Grabbed all these functions from https://github.com/rkalis/dotfiles/blob/master/scripts/functions.sh
 # Then adapted to make them compatible with Bash (vs originally Fish)
 
+set -e
+
 symlink() {
 	local SRC=$1
 	local DST=$2
@@ -60,30 +62,34 @@ coloredEcho() {
     fi
     tput bold;
     tput setaf "$color";
-    echo "$arrow $exp";
+    printf "%s %s\n" "$arrow" "$exp";
     tput sgr0;
 }
 
 info() {
-    coloredEcho "$1" blue "========>"
+    coloredEcho "$1" blue "===>"
 }
 
 success() {
-    coloredEcho "$1" green "========>"
+    coloredEcho "$1" green "===>"
 }
 
 error() {
-    coloredEcho "$1" red "========>"
+    coloredEcho "$1" red "===>"
 }
 
 substep_info() {
-    coloredEcho "$1" magenta "===="
+    coloredEcho "$1" magenta "======"
 }
 
 substep_success() {
-    coloredEcho "$1" cyan "===="
+    coloredEcho "$1" cyan "======"
 }
 
 substep_error() {
-    coloredEcho "$1" red "===="
+    coloredEcho "$1" red "======"
+}
+
+ask_user() {
+	coloredEcho "$1" magenta "---------> "
 }

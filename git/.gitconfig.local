@@ -1,7 +1,7 @@
 [user]
 	name = Carlos Montemuiño
 	email = cmontemuino@users.noreply.github.com
-	signingkey = 8B8B4CE869F0B4011D9F136FB2742205C23B433F
+	signingkey = GPG_SIGNING_KEY
 
 [advice]
 	statusHints = false
